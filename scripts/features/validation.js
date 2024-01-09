@@ -1,7 +1,5 @@
-import {clearRegistrationForm, registrationForm} from "./registration_form.js";
-import {closeModal} from "./modal.js";
+import {clearRegistrationForm, registrationFormData} from "./registration_form.js";
 
-let onSubmitCallback = () => {};
 
 // Input fields
 const form = document.getElementsByName('reserve')[0];
@@ -13,6 +11,8 @@ const condButtonRequired = document.getElementById('checkbox1');
 const formContent = document.querySelector('.modal-body form');
 const thankYouMessage = document.getElementById('thankYouMessage');
 const closeButtonThanks = document.querySelector('.btn-close');
+const locationRadioButtons = form.querySelectorAll('input[name="location"]');
+const quantity = document.getElementById('quantity');
 
 
 
@@ -23,6 +23,7 @@ const emailError = document.getElementById('emailError');
 const birthdateError = document.getElementById('birthdateError');
 const condButtonError = document.getElementById('condButtonError');
 const locationError = document.getElementById('locationError');
+const quantityError = document.getElementById('quantityError');
 
 export function validation() {
   form.addEventListener('submit', function (event) {
@@ -36,11 +37,8 @@ export function validation() {
     thankYouMessage.style.display = 'flex';
     closeButtonThanks.style.display = 'flex';
     console.log('Thank You message displayed');
-    formContent.style.display = "block";
-    thankYouMessage.style.display = 'none';
-    closeModal();
+    }
     
-  }
 
 
 
@@ -50,13 +48,8 @@ addInputValidation(lastName, lastNameError, validateLastName);
 addInputValidation(email, emailError, validateEmail);
 addInputValidation(birthdate, birthdateError, validateBirthdate);
 addInputValidation(condButtonRequired, condButtonError, validateCondButton);
+addInputValidation(quantity, quantityError, validateQuantity);
 
- // Add event listener for the 'location' radio buttons
- form.querySelectorAll('input[name="location"]').forEach((radioButton) => {
-  radioButton.addEventListener('change', function () {
-    hideLocationError();
-  });
-});
 
 //Input event listeners
 function addInputValidation(input, errorSpan, validationFunction) {
@@ -69,35 +62,36 @@ function addInputValidation(input, errorSpan, validationFunction) {
   });
 }
 
-  export function validateForm() {
-    let isFormValid = true;
+// Add event listener for location radio buttons
+locationRadioButtons.forEach(function (radioButton) {
+  radioButton.addEventListener('change', function () {
+    locationValidation();
+  });
+});
 
-    validateFirstName();
-    validateLastName();
-    validateEmail();
-    validateBirthdate();
-    validateCondButton();
-    validateLocation();
+export function validateForm() {
+  let isFormValid = true;
 
- 
+  isFormValid = validateFirstName() && isFormValid;
+  isFormValid = validateLastName() && isFormValid;
+  isFormValid = validateEmail() && isFormValid;
+  isFormValid = validateBirthdate() && isFormValid;
+  isFormValid = validateCondButton() && isFormValid;
+  isFormValid = locationValidation() && isFormValid;
+  isFormValid = validateQuantity() && isFormValid;
 
-    if (!isFormValid) {
-      return; // If any validation fails, exit early
-    }
-   // If validation succeeds, execute form submission logic
-  onSubmitCallback();
-  
-//
-  registrationForm();
+  if (isFormValid) {
+    // If form is valid, send data.
+    registrationFormData();
+    // Optionally, clear the registration form or hide it
+    clearRegistrationForm();
 
-   // Optionally, clear the registration form or hide it
-  clearRegistrationForm();
-
-  // Display the Thank You message
-  showThankYouMessage();
-
- 
+    // Display the Thank You message
+    showThankYouMessage();
+  } else {
+    return alert('Form is not valid');
   }
+}
 
   
 
@@ -127,20 +121,23 @@ function hideError(input, errorSpan) {
 
 function validateFirstName() {
   const value = firstName.value.trim();
-  if (value.length < 2) {
-    showError(firstName, firstNameError, 'You have to enter at least 2 characters.');
+  if (!/^[a-zA-Z]+$/.test(value) || value.length < 2) {
+    showError(firstName, firstNameError, 'Please enter at least 2 characters.');
     return false;
   } else {
     hideError(firstName, firstNameError);
+    return true;
   }
 }
 
 function validateLastName() {
   const value = lastName.value.trim();
-  if (value.length < 2) {
-    showError(lastName, lastNameError, 'You have to enter at least 2 characters.');
+  if (!/^[a-zA-Z]+$/.test(value) || value.length < 2) {
+    showError(lastName, lastNameError, 'Please enter at least 2 characters.');
+    return false;
   } else {
     hideError(lastName, lastNameError);
+    return true;
   }
 }
 
@@ -149,8 +146,10 @@ function validateEmail() {
   const emailRegex = /^[^\s@]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   if (!emailRegex.test(value)) {
     showError(email, emailError, 'You have to enter a valid email address.');
+    return false;
   } else {
     hideError(email, emailError);
+    return true;
   }
 }
 
@@ -161,28 +160,42 @@ function validateBirthdate() {
 
   if (age < 10) {
     showError(birthdate, birthdateError, 'You have to enter a valid birthdate.');
+    return false;
   } else {
     hideError(birthdate, birthdateError);
+    return true;
   }
 }
 
-function validateLocation() {
-  const locationRadioButtons = form.querySelectorAll('input[name="location"]');
+function validateQuantity() {
+  const value = quantity.value.trim();
+  const quantityRegex = /^\d+$/; // Only allow positive integers
+
+  if (!quantityRegex.test(value) || parseInt(value) > 99) {
+    showError(quantity, quantityError, 'Please enter a valid quantity (up to 99).');
+    return false;
+  } else {
+    hideError(quantity, quantityError);
+    return true;
+  }
+}
+
+function locationValidation() {
   if (!Array.from(locationRadioButtons).some((radioButton) => radioButton.checked)) {
     showLocationError();
-    isFormValid = false;
+    return false;
   } else {
     hideLocationError();
+    return true;
   }
 }
-
-
 
 function validateCondButton() {
   if (!condButtonRequired.checked) {
     showError(condButtonRequired, condButtonError, 'You must agree to the terms and conditions.');
+    return false;
   } else {
     hideError(condButtonRequired, condButtonError);
+    return true;
   }
 }
-

@@ -1,23 +1,13 @@
 
 const form = document.querySelector("form[name='reserve']");
-let onSubmitCallback = () => {};
 
-export function registrationForm(callback) {
-    if (callback) onSubmitCallback = callback;
-    bindEvents();
-}
 
 export function clearRegistrationForm() {
     form.reset();
-    console.log("Form cleared");
-    // TODO: Reafficher le formulaire et cacher le message de validation
-    
+    console.log("Form cleared");  
 }
 
- export function bindEvents() {
-    form.addEventListener('submit', (event) => {
-        event.preventDefault();
-        
+ export function registrationFormData() {
    // Create a FormData object from the form
    const formData = new FormData(form);
 
@@ -30,6 +20,8 @@ export function clearRegistrationForm() {
    // Log the user object to the console
    console.log('Form submitted with data:', user);
 
+}
+
 
   // Envoie les données de l'utilisateur au serveur
   
@@ -38,5 +30,3 @@ export function clearRegistrationForm() {
     body: formData,
   });
   console.log(await response.json());*/
-    });
-}

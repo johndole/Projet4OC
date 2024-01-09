@@ -155,11 +155,20 @@ function validateEmail() {
 
 function validateBirthdate() {
   const birthdateValue = new Date(birthdate.value);
+
+  // Check if the birthdate is unset or invalid
+  if (isNaN(birthdateValue.getTime())) {
+    showError(birthdate, birthdateError, 'Please enter a valid birthdate.');
+    return false;
+  }
+
   const today = new Date();
+  const minAge = 10;
   const age = today.getFullYear() - birthdateValue.getFullYear();
 
-  if (age < 10) {
-    showError(birthdate, birthdateError, 'You have to enter a valid birthdate.');
+  if (age < minAge) {
+    const errorMessage = `You must be at least ${minAge} years old.`;
+    showError(birthdate, birthdateError, errorMessage);
     return false;
   } else {
     hideError(birthdate, birthdateError);

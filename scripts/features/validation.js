@@ -36,11 +36,10 @@ export function validation() {
     thankYouMessage.style.display = 'flex';
     closeButtonThanks.style.display = 'flex';
     console.log('Thank You message displayed');
-    setTimeout(() => {
-      closeModal();
-      formContent.style.display = "block";
-      thankYouMessage.style.display = 'none';
-    }, 3000);
+    formContent.style.display = "block";
+    thankYouMessage.style.display = 'none';
+    closeModal();
+    
   }
 
 
@@ -88,7 +87,7 @@ function addInputValidation(input, errorSpan, validationFunction) {
   }
 
     if (!isFormValid) {
-      return false; // If any validation fails, exit early
+      return; // If any validation fails, exit early
     }
    // If validation succeeds, execute form submission logic
   onSubmitCallback();

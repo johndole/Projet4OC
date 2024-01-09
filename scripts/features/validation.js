@@ -77,14 +77,9 @@ function addInputValidation(input, errorSpan, validationFunction) {
     validateEmail();
     validateBirthdate();
     validateCondButton();
+    validateLocation();
 
-    const locationRadioButtons = form.querySelectorAll('input[name="location"]');
-  if (!Array.from(locationRadioButtons).some((radioButton) => radioButton.checked)) {
-    showLocationError();
-    isFormValid = false;
-  } else {
-    hideLocationError();
-  }
+ 
 
     if (!isFormValid) {
       return; // If any validation fails, exit early
@@ -170,6 +165,18 @@ function validateBirthdate() {
     hideError(birthdate, birthdateError);
   }
 }
+
+function validateLocation() {
+  const locationRadioButtons = form.querySelectorAll('input[name="location"]');
+  if (!Array.from(locationRadioButtons).some((radioButton) => radioButton.checked)) {
+    showLocationError();
+    isFormValid = false;
+  } else {
+    hideLocationError();
+  }
+}
+
+
 
 function validateCondButton() {
   if (!condButtonRequired.checked) {

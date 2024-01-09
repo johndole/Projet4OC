@@ -472,12 +472,7 @@ font-weight: 400;
   
 }
 
-
-
-
 footer {
-  padding-left: 2vw;
-  padding-right: 2vw;
   margin: 0 20px;
 }
 @media screen and (max-width: 800px) {

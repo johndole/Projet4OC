@@ -4,12 +4,10 @@ const closeButton = modalbg.querySelector(".close");
 const modalTopNav = document.getElementById("myTopnav");
 const hamburger = document.getElementById("icon");
 const closeButtonThanks = document.querySelector(".btn-close");
-const thankYouMessage = document.getElementById('thankYouMessage');
-const formContent = document.querySelector('.modal-body form');
-
+const thankYouMessage = document.getElementById("thankYouMessage");
+const formContent = document.querySelector(".modal-body form");
 
 hamburger.addEventListener("click", editNav);
-
 
 function editNav() {
   let x = document.getElementById("myTopnav");
@@ -27,7 +25,6 @@ export function openModal() {
   modalbg.style.paddingTop = "50px";
   modalTopNav.style.position = "fixed";
   closeButtonThanks.style.display = "none";
-  
 }
 
 // Function to close the modal
@@ -36,8 +33,7 @@ export function closeModal() {
   modalbg.style.paddingTop = "inherit";
   modalTopNav.style.position = "inherit";
   formContent.style.display = "block";
-  thankYouMessage.style.display = 'none';
-
+  thankYouMessage.style.display = "none";
 }
 
 function bindEvents() {
@@ -48,9 +44,8 @@ function bindEvents() {
   closeButtonThanks.addEventListener("click", closeModal);
 }
 
-  // When the user clicks anywhere outside of the modal, close it
-  window.onclick = function (event) {
-    if (event.target !== modalbg) return;
-    closeModal();
-  };
-
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function (event) {
+  if (event.target !== modalbg) return;
+  closeModal();
+};

@@ -3,14 +3,7 @@ import { validation } from "./features/validation.js";
 
 
 
-
-function start() {
+document.addEventListener('DOMContentLoaded', async function () {
     modal();
     validation();
-}
-
-
-
-
-
-document.addEventListener("DOMContentLoaded", start);
+});

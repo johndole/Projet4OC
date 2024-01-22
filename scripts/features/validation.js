@@ -41,15 +41,7 @@ export function showThankYouMessage() {
   console.log("Thank You message displayed");
 }
 
-// Ajout des écouteurs d'événements pour la validation en temps réel des champs d'entrée
-addInputValidation(firstName, firstNameError, validateFirstName);
-addInputValidation(lastName, lastNameError, validateLastName);
-addInputValidation(email, emailError, validateEmail);
-addInputValidation(birthdate, birthdateError, validateBirthdate);
-addInputValidation(condButtonRequired, condButtonError, validateCondButton);
-addInputValidation(quantity, quantityError, validateQuantity);
-
-// Fonction générique pour ajouter des écouteurs d'événements pour la validation en temps réel
+// Fonction générique pour ajouter des events listeners pour la validation en temps réel
 function addInputValidation(input, errorSpan, validationFunction) {
   input.addEventListener("input", function (event) {
     if (validationFunction) {
@@ -59,6 +51,16 @@ function addInputValidation(input, errorSpan, validationFunction) {
     }
   });
 }
+
+// Ajout des events listeners pour la validation en temps réel des champs d'entrée
+addInputValidation(firstName, firstNameError, validateFirstName);
+addInputValidation(lastName, lastNameError, validateLastName);
+addInputValidation(email, emailError, validateEmail);
+addInputValidation(birthdate, birthdateError, validateBirthdate);
+addInputValidation(condButtonRequired, condButtonError, validateCondButton);
+addInputValidation(quantity, quantityError, validateQuantity);
+
+
 
 // Ajout d'un écouteur d'événement pour les boutons radio de l'emplacement
 locationRadioButtons.forEach(function (radioButton) {
